@@ -41,16 +41,25 @@ from lynx import lynx
 import spliter
 from indexer import indexer
 from sorter import sorter
+from ander import ander
 
 if __name__ == '__main__':
 
     base_urls = ['http://www.google.com', 'http://www.wikipedia.org']
+    print '*** 0. mkdir dir to store the html files ***'
     path_init(base_urls)
+    print '*** 1. tinysearch spider starts ***'
     jobs = [ gevent.spawn(fetch, base_url) for base_url in base_urls ]
     gevent.joinall(jobs)
+    print '*** 2. lynx html in order to get the content ***'
     lynx('html')
+    print '*** 3. load spliter dict ***'
     dic = spliter.init()
-    indexer(dic, './test/', 'test.html')
-    doc_id_list = [0]
+    print '*** 4. index content and return doc_id ***'
+    print "*** 5. doc_id is %s ***" % ( indexer(dic, './test/', 'test.html') )
     word_list = [u'百科']
+    print '*** 6. get common doc_id list ***'
+    doc_id_list = ander(word_list)
+    print doc_id_list
+    print '*** 7. sort the result ***'
     print sorter(word_list, doc_id_list)

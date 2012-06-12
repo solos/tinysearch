@@ -51,6 +51,7 @@ IDF_RDS_DB=1
 BITMAP_RDS_DB=2
 
 DOC_TOTAL=180000
+TOTAL_SET=set(doc_id for doc_id in xrange(0, 180000))
 
 STATUS = {
     100: ('Continue', 'Request received, please continue'),

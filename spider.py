@@ -48,7 +48,7 @@ from config import USERAGENT, TIMEOUT, LOGBASENAME, HTMLPATH, RETRY_TIMES
 date = date.today()
 tinyso_spider = urllib2.build_opener()
 tinyso_spider.addheaders = [('User-agent', USERAGENT)]
-logfilename = '%s.%s' % (LOGBASENAME,str(date))
+logfilename = '%s.%s' % (str(date), LOGBASENAME)
 
 logging.basicConfig(filename=logfilename, level=logging.INFO)
 
@@ -114,7 +114,6 @@ def findurl(content, url):
 if __name__ == '__main__':
 
     base_urls = ['http://www.google.com', 'http://www.wikipedia.org']
-    #urls = [ 'http://geci.me/song/%s' % (sid) for sid in xrange(1000001, 1000010) ]
     path_init(base_urls)
     jobs = [ gevent.spawn(fetch, base_url) for base_url in base_urls ]
     gevent.joinall(jobs)

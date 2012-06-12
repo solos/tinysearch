@@ -14,6 +14,9 @@ tinysearch 台泥搜
 - 爬虫：
 
     + 基于gevent
+    + DNS本地缓存 dnsmasq
+    + url存储 Mysql
+    + url判重 md5
 
 - 中文分词：
 

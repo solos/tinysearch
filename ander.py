@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #coding=utf-8
 """
-indexer.py
+ander.py
 
 This code is released under the following BSD license --
 
@@ -31,42 +31,24 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from os import popen
-from lynx import lynx
-import spliter
-import logging
-from collections import defaultdict
+from config import DOC_TOTAL, TOTAL_SET
 import db
+from collections import defaultdict
 
-def indexer(dic, path, filename):
-    '''index the file'''
-    tf_dic = defaultdict(tuple)
-    content = lynx( "%s/%s" % (path, filename) )
-    content = unicode(content, 'utf-8')
-    
-    urlmd5 = filename
-    doc_id = db.doc_id_db.get(urlmd5)
-    if not doc_id:
-        doc_id_count = db.doc_id_db.count()
-        if db.doc_id_db.set(urlmd5, doc_id_count):
-            doc_id = db.doc_id_db.set(urlmd5, doc_id_count)
-    inUstrList = spliter.cut(content)
-    outUstr = ''
-    for inUstr in inUstrList:
-        #outUstrList.append( spliter.split(inUstr, dic, maxLen=5).split(' ') )
-        outUstr = '%s %s' % ( outUstr, spliter.split(inUstr, dic, maxLen=5) )
-    outListOri = outUstr.split(' ')
-    outList = list( set(outListOri) )
-    for word in outList:
-        db.index_rds.setbit(word, doc_id, 1)
+def ander(word_list):
+    doc_id_sets = defaultdict(set)
 
-    for word in outList:
-        tf_dic[word] = outUstr.count(word) / ( len(outListOri) + 0.0 )
-    db.tf_dic_db.set(doc_id, unicode(dict(tf_dic)))
+    for word in word_list:
+        for doc_id in xrange(0, DOC_TOTAL):
+            if db.index_rds.getbit(word, doc_id) == 1:
+                doc_id_sets[word].add(doc_id)
 
-    return doc_id
-
+    comm_doc_id_set = TOTAL_SET
+    for word in word_list:
+        comm_doc_id_set &= doc_id_sets[word]
+    comm_doc_id_list = list(comm_doc_id_set)
+    return comm_doc_id_list
 
 if __name__ == '__main__':
-    dic = spliter.init()
-    indexer(dic, './test', 'test.html')
+    pass
+

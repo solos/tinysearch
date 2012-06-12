@@ -46,14 +46,13 @@ def sorter(word_list, doc_id_list):
         idf_dic[word] = word_idf
 
     for doc_id in  doc_id_list:
+        doc_weight[doc_id] = 0.0
         tf_dic_str = db.tf_dic_db.get(doc_id)
         if not tf_dic_str:
             tf_dic_str = u'{}'
         tf_dic = eval(tf_dic_str)
         for word in word_list:
-            #word = unicode(word, 'utf-8')
-            db.index_rds.setbit(word, doc_id, 1)
-            doc_weight[doc_id] = tf_dic[word] * idf_dic[word]
+            doc_weight[doc_id] += tf_dic[word] * idf_dic[word]
 
     return sorted(doc_weight.iteritems(), key=itemgetter(1), reverse=True)
 
