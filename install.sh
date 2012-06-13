@@ -17,7 +17,8 @@
 #	'kyotocabinet': '1.2.30', 
 #	'kyotocabinet-python': 'kyotocabinet-python-legacy-1.18',
 #	'redis': '2.6.0-rc4',
-#	'redis-python': '2.4.13'
+#	'redis-python': '2.4.13',
+#	'dnsmasq': '2.52'
 #   }
 #}
 
@@ -75,3 +76,6 @@ git clone ssh://github.com/solos/redis-py.git
 cd redis-py 
 sudo python setup.py install
 cd ..
+
+echo 'dnsmasq'
+sudo apt-get install dnsmasq
