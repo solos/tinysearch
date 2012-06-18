@@ -35,7 +35,7 @@ import codecs
 import time
 import re
 from collections import defaultdict
-from config import DICT_FILE, MAX_LENGTH
+from config import DICT_FILE, MAX_LENGTH, NON_SENSE
 
 def init():
     '''load dict_file and init dict'''
@@ -69,6 +69,9 @@ def split(inUstr, dic, maxLen=5):
                 inUstr = inUstr[length:]
                 break
     return outUstr
+
+def del_nonsense(outUstr):
+    return re.sub(NON_SENSE, " ", outUstr)
 
 if __name__ == '__main__':
     dic=init()

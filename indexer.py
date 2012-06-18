@@ -42,7 +42,7 @@ def indexer(dic, path, filename):
     '''index the file'''
     tf_dic = defaultdict(tuple)
     content = lynx( "%s/%s" % (path, filename) )
-    content = unicode(content, 'utf-8')
+    content = unicode(content, 'utf8')
     
     urlmd5 = filename
     doc_id = db.doc_id_db.get(urlmd5)
@@ -58,7 +58,8 @@ def indexer(dic, path, filename):
     outListOri = outUstr.split(' ')
     outList = list( set(outListOri) )
     for word in outList:
-        db.index_rds.setbit(word, doc_id, 1)
+        if len(word) > 1:
+            db.index_rds.setbit(word, doc_id, 1)
 
     for word in outList:
         tf_dic[word] = outUstr.count(word) / ( len(outListOri) + 0.0 )
@@ -70,3 +71,4 @@ def indexer(dic, path, filename):
 if __name__ == '__main__':
     dic = spliter.init()
     indexer(dic, './test', 'test.html')
+    indexer(dic, './test', 'df053967e64fbd37efaf475f167a2312')

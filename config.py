@@ -118,3 +118,4 @@ STATUS = {
         'The gateway server did not receive a timely response'),
     505: ('HTTP Version Not Supported', 'Cannot fulfill request.'),
 }
+NON_SENSE=u' 的 | 了 | 和 | 与 | 或 '
