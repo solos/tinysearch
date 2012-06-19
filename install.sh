@@ -59,9 +59,7 @@ cd ..
 echo 'kyotocabinet-python'
 wget 'http://fallabs.com/kyotocabinet/pythonlegacypkg/kyotocabinet-python-legacy-1.18.tar.gz'
 tar xf kyotocabinet-python-legacy-1.18.tar.gz && cd kyotocabinet-python-legacy-1.18
-./configure --prefix=/usr/local/
-sudo make
-sudo make install
+sudo python setup install
 cd ..
 
 echo 'redis'
